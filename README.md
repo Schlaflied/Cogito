@@ -44,8 +44,8 @@ Uses the `hour`, `weekday`, and `net_lines` fields already in `diffs.jsonl`. No 
 *What concepts appear across all your domains without you being aware of it?*
 
 ```
-embed_notes.py            → data/notes_chunks.jsonl      (note content, chunked + embedded)
-cross_domain_analysis.py  → data/cross_domain_map.html   (combined behavioral + content map)
+embed_notes.py            → data/notes_chunks.jsonl       (note content, chunked + embedded)
+cross_domain_analysis.py  → data/cross_domain_map.html    (combined behavioral + content map)
                           → data/cross_domain_clusters.json  (machine-readable, for AI querying)
 ```
 
@@ -55,7 +55,13 @@ This is the hard direction. It combines two data layers:
 
 Clusters that span multiple domains (creative writing, technical work, legal documents, job search) are candidates for your cognitive identity anchors — the patterns you return to everywhere without choosing to.
 
-The JSON output is designed to be read by an AI with context about you. The system surfaces the pattern; the AI explains what it means.
+**The output is not a dashboard. It's a conversation starter.**
+
+A 2D scatter plot of 5000+ points tells you nothing. The real output is `cross_domain_clusters.json` — a structured summary of which domains cluster together, with representative samples. Feed it to an AI that knows your context and ask: *what does this mean about me?*
+
+The system surfaces the pattern. The AI explains what it means. You decide if it's true.
+
+This is the part no existing self-tracking tool does: not visualization, but interpretation grounded in your actual behavioral record.
 
 ---
 
