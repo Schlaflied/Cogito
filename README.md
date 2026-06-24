@@ -33,10 +33,10 @@ Each dot is one commit. Position in space = semantic content. X axis = time. Col
 *When are you most active? What does your work rhythm look like?*
 
 ```
-temporal_patterns.py   → data/temporal_report.html  (hour/weekday/intensity heatmaps)
+direction_b/temporal_patterns.py  → data/temporal_report.html  (hour/weekday/intensity heatmaps)
 ```
 
-Uses the `hour`, `weekday`, and `net_lines` fields already in `diffs.jsonl`. No extra API calls. Reveals when different types of thinking happen — late-night commits vs. morning commits, high-output days vs. maintenance days.
+Uses the `hour`, `weekday`, and `net_lines` fields already in `diffs.jsonl`. No extra API calls. Four charts: commit frequency heatmap, output intensity heatmap, monthly volume, and monthly volume broken down by domain.
 
 ---
 
@@ -44,9 +44,9 @@ Uses the `hour`, `weekday`, and `net_lines` fields already in `diffs.jsonl`. No 
 *What concepts appear across all your domains without you being aware of it?*
 
 ```
-embed_notes.py            → data/notes_chunks.jsonl       (note content, chunked + embedded)
-cross_domain_analysis.py  → data/cross_domain_map.html    (combined behavioral + content map)
-                          → data/cross_domain_clusters.json  (machine-readable, for AI querying)
+direction_c/embed_notes.py            → data/notes_chunks.jsonl       (note content, chunked + embedded)
+direction_c/cross_domain_analysis.py  → data/cross_domain_map.html    (combined behavioral + content map)
+                                      → data/cross_domain_clusters.json  (machine-readable, for AI querying)
 ```
 
 This is the hard direction. It combines two data layers:
@@ -93,6 +93,27 @@ OPENAI_API_KEY=sk-...
 ```
 
 Edit `VAULT_DIR` at the top of each script to point to your vault (must be a git repo).
+
+---
+
+## Not using Obsidian?
+
+Cogito works on any folder of text files. The `ingest.py` script normalises external sources into a format the pipeline can read:
+
+```bash
+# Any folder of .md / .txt files
+python ingest.py --source folder --path /path/to/your/notes
+
+# Notion export (zip or folder)
+python ingest.py --source notion --path /path/to/notion-export.zip
+
+# Google Docs via Google Takeout (content layer only — no revision history)
+python ingest.py --source gdocs --path /path/to/takeout.zip
+```
+
+Output lands in `data/ingested/<source>/`. Point `embed_notes.py` at that folder and run Direction C as normal.
+
+Note: non-git sources only support Direction C (content layer). Direction A requires a git repository.
 
 ---
 
