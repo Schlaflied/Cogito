@@ -76,6 +76,9 @@ def extract():
         if len(diff_text) > MAX_DIFF_CHARS:
             diff_text = diff_text[:MAX_DIFF_CHARS] + "\n[truncated]"
 
+        # Strip surrogate characters from binary file bleed-through
+        diff_text = diff_text.encode("utf-8", errors="replace").decode("utf-8")
+
         # Net lines (additions - deletions)
         added = diff_text.count("\n+")
         removed = diff_text.count("\n-")

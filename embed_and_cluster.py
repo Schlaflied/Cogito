@@ -76,6 +76,11 @@ def run():
     records = load_records()
     print(f"  {len(records)} records loaded.")
 
+    # Replace empty diffs with a placeholder so OpenAI doesn't reject them
+    for r in records:
+        if not r["diff_text"].strip():
+            r["diff_text"] = "[empty commit]"
+
     # Embed
     texts = [r["diff_text"] for r in records]
     embeddings = []
