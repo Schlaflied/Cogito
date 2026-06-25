@@ -90,6 +90,25 @@ OPENAI_API_KEY=sk-...
 
 ---
 
+## 不用 Obsidian？
+
+Cogito 可以处理任何文本文件夹——Obsidian 只是最自然的起点，因为它已经有 git 插件。`ingest.py` 脚本可以把其他来源标准化成同样的格式：
+
+| 来源 | 命令 | 支持的方向 |
+|------|------|-----------|
+| 任意 `.md` / `.txt` 文件夹 | `python ingest.py --source folder --path /path/to/notes` | 仅 C |
+| Notion 导出（zip 或文件夹） | `python ingest.py --source notion --path /path/to/export.zip` | 仅 C |
+| Google Docs via Google Takeout | `python ingest.py --source gdocs --path /path/to/takeout.zip` | 仅 C |
+| 任意 git 仓库 | 在脚本顶部设置 `VAULT_DIR` | A + B + C |
+
+输出到 `data/ingested/<source>/`，然后把 `direction_c/embed_notes.py` 指向那个文件夹运行即可。
+
+**为什么非 git 来源只支持方向 C：** 方向 A 和 B 需要 commit 历史——时间戳、diff、净行数变化。Google Doc 或 Notion 导出是快照，不是历史。你能拿到内容层，但拿不到行为层。
+
+如果你想在 Google Docs 或 Notion 上跑完整 pipeline，可以把内容导出到一个 git 追踪的文件夹，然后定期 commit。哪怕每次写作结束后 commit 一次，对方向 A 来说也是足够的信号。
+
+---
+
 ## API 费用估算
 
 | 步骤 | 数量 | 估算费用 |

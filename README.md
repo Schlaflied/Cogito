@@ -98,22 +98,20 @@ Edit `VAULT_DIR` at the top of each script to point to your vault (must be a git
 
 ## Not using Obsidian?
 
-Cogito works on any folder of text files. The `ingest.py` script normalises external sources into a format the pipeline can read:
+Cogito works on any folder of text files — Obsidian is just the most natural starting point because it already has a git plugin. The `ingest.py` script normalises other sources into the same format:
 
-```bash
-# Any folder of .md / .txt files
-python ingest.py --source folder --path /path/to/your/notes
+| Source | Command | Directions supported |
+|--------|---------|----------------------|
+| Any `.md` / `.txt` folder | `python ingest.py --source folder --path /path/to/notes` | C only |
+| Notion export (zip or folder) | `python ingest.py --source notion --path /path/to/export.zip` | C only |
+| Google Docs via Google Takeout | `python ingest.py --source gdocs --path /path/to/takeout.zip` | C only |
+| Any git repo | point `VAULT_DIR` at it in the scripts | A + B + C |
 
-# Notion export (zip or folder)
-python ingest.py --source notion --path /path/to/notion-export.zip
+Output lands in `data/ingested/<source>/`. Then run `direction_c/embed_notes.py` pointing at that folder.
 
-# Google Docs via Google Takeout (content layer only — no revision history)
-python ingest.py --source gdocs --path /path/to/takeout.zip
-```
+**Why non-git sources only support Direction C:** Direction A and B require commit history — timestamps, diffs, net lines changed. A Google Doc or Notion export is a snapshot, not a history. You get the content layer but not the behavioral layer.
 
-Output lands in `data/ingested/<source>/`. Point `embed_notes.py` at that folder and run Direction C as normal.
-
-Note: non-git sources only support Direction C (content layer). Direction A requires a git repository.
+If you want the full pipeline on Google Docs or Notion, export to a git-tracked folder and commit regularly. Even one commit per writing session is enough signal for Direction A.
 
 ---
 
